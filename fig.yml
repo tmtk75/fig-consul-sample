@@ -1,0 +1,32 @@
+node0:
+  build: .
+  command: /opt/server.sh 2
+  volumes:
+    - "./data/node0:/data"
+  ports:
+    - "8500:8500"  # http
+    - "8600:8600"  # dns
+
+node1:
+  build: .
+  command: /opt/server.sh 2 node0
+  volumes:
+    - "./data/node1:/data"
+  links:
+    - node0:node0
+
+node2:
+  build: .
+  command: /opt/client.sh node1
+  volumes:
+    - "./data/node2:/data"
+  links:
+    - node1:node1
+
+node3:
+  build: .
+  command: /opt/client.sh node2
+  volumes:
+    - "./data/node3:/data"
+  links:
+    - node2:node2
