@@ -1,5 +1,8 @@
 b2d_host=192.168.59.103
 
+nodes:
+	curl -XGET "$(b2d_host):8500/v1/catalog/nodes" | jq .
+
 kv-get:
 	curl -XGET "$(b2d_host):8500/v1/kv/hello?recurse" | jq .
 
